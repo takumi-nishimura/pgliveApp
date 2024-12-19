@@ -13,6 +13,12 @@ This project is a live plotting application using PyQt6 and pglive. It allows yo
 
 To install the required dependencies, run:
 ```sh
+pip install pgliveapp
+```
+
+or  
+
+```sh
 uv add pgliveapp
 ```
 
