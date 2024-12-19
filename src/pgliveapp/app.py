@@ -1,5 +1,6 @@
 import pickle
 import queue
+import signal
 import socket
 from threading import Thread
 from typing import Any, List, Optional
@@ -16,7 +17,7 @@ class LivePlotApp(QApplication):
     def __init__(
         self,
         *,
-        plots_cnt: int = 1,
+        num: int = 1,
         plot_titles: List = [],
         cols: int = 1,
         argv: List[str] = [],
@@ -39,13 +40,13 @@ class LivePlotApp(QApplication):
         self.panel = QtWidgets.QWidget()
         self.layout = QtWidgets.QGridLayout(parent=self.panel)
 
-        for ch in range(plots_cnt):
+        for ch in range(num):
             plot_title = (
                 plot_titles[ch]
                 if ch < len(plot_titles)
                 else f"Live Plot {ch + 1}"
             )
-            rows = (plots_cnt + cols - 1) // cols
+            rows = (num + cols - 1) // cols
             plot_row = ch % rows
             plot_col = ch // rows
             plot_widget = LinePlotWidget(plot_key=f"y{ch+1}", title=plot_title)
@@ -64,6 +65,10 @@ class LivePlotApp(QApplication):
 
         self.main_window.setCentralWidget(self.panel)
         self.main_window.show()
+
+        signal.signal(signal.SIGINT, self.handle_exit)
+        signal.signal(signal.SIGTERM, self.handle_exit)
+
         self.exec()
 
     def live_plot(self):
@@ -85,6 +90,10 @@ class LivePlotApp(QApplication):
                 )
             else:
                 connector.cb_append_data_point(y, x)
+
+    def handle_exit(self, signum, frame):
+        print("Exiting...")
+        self.quit()
 
 
 class LinePlotWidget(LivePlotWidget):
@@ -118,7 +127,7 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--plots-cnt", type=int, default=1)
+    parser.add_argument("--num", type=int, default=1)
     parser.add_argument("--cols", type=int, default=1)
     parser.add_argument("--port", type=int, default=4000)
     parser.add_argument("--ip", type=str, default="localhost")
