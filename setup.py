@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="pgliveapp",
-    version="0.1.3",
+    version="0.1.4",
     description="",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",

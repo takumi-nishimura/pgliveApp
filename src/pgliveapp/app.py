@@ -25,6 +25,13 @@ class LivePlotApp(QApplication):
     ):
         super().__init__(argv)
 
+        _xrange = kwargs.get("xrange", None)
+        if not _xrange is None:
+            _xrange = LiveAxisRange(fixed_range=[-_xrange, _xrange])
+        _yrange = kwargs.get("yrange", None)
+        if not _yrange is None:
+            _yrange = LiveAxisRange(fixed_range=[-_yrange, _yrange])
+
         self.connectors = {}
         self.data_queue = queue.Queue(maxsize=5)
 
@@ -37,6 +44,13 @@ class LivePlotApp(QApplication):
         self.sock.bind(self.SOCK_ADDRESS)
 
         self.main_window = QMainWindow()
+        self.main_window.setStyleSheet(
+            """
+            QMainWindow {
+                background-color: black;
+            }
+            """
+        )
         self.panel = QtWidgets.QWidget()
         self.layout = QtWidgets.QGridLayout(parent=self.panel)
 
@@ -49,7 +63,13 @@ class LivePlotApp(QApplication):
             rows = (num + cols - 1) // cols
             plot_row = ch % rows
             plot_col = ch // rows
-            plot_widget = LinePlotWidget(plot_key=f"y{ch+1}", title=plot_title)
+            plot_widget = LinePlotWidget(
+                plot_key=f"y{ch+1}",
+                x_range_controller=_xrange,
+                y_range_controller=_yrange,
+                x_points=kwargs.get("x_points", 5000),
+                title=plot_title,
+            )
             self.layout.addWidget(
                 plot_widget,
                 plot_row,
@@ -105,6 +125,7 @@ class LinePlotWidget(LivePlotWidget):
         plotItem=None,
         x_range_controller: Optional[LiveAxisRange] = None,
         y_range_controller: Optional[LiveAxisRange] = None,
+        x_points: int = 5000,
         **kwargs: Any,
     ) -> None:
         super().__init__(
@@ -119,7 +140,7 @@ class LinePlotWidget(LivePlotWidget):
         self.curve = LiveLinePlot(pen=kwargs.get("pen", "r"))
         self.addItem(self.curve)
         self.connector = DataConnector(
-            self.curve, max_points=5000, update_rate=200
+            self.curve, max_points=x_points, update_rate=200
         )
 
 
@@ -131,6 +152,9 @@ def main():
     parser.add_argument("--cols", type=int, default=1)
     parser.add_argument("--port", type=int, default=4000)
     parser.add_argument("--ip", type=str, default="localhost")
+    parser.add_argument("--xrange", type=float, default=None)
+    parser.add_argument("--yrange", type=float, default=None)
+    parser.add_argument("--x-points", type=int, default=5000)
     args = parser.parse_args()
 
     LivePlotApp(**vars(args))
