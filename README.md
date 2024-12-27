@@ -27,12 +27,12 @@ uv add pgliveapp
 ## Usage
 To run the application, execute:
 ```sh
-pgliveapp --num <number_of_plots> --cols <number_of_columns> --port <port_number> --ip <ip_address>
+pgliveapp --num <number_of_plots> --cols <number_of_columns> --port <port_number> --ip <ip_address> --xrange <x_range> --yrange <y_range> --x-points <x_points>
 ```
 
 For example:
 ```sh
-pgliveapp ---num 2 --cols 1 --port 4000 --ip localhost
+pgliveapp ---num 2 --cols 1 --port 4000 --ip localhost --yrange 5 --x-points 500
 ```
 
 ## Arguments
@@ -40,3 +40,6 @@ pgliveapp ---num 2 --cols 1 --port 4000 --ip localhost
 - --cols: Number of columns in the plot layout (default: 1)
 - --port: UDP port to listen for incoming data (default: 4000)
 - --ip: IP address to bind the UDP socket (default: localhost)
+- --xrange: X-axis range (default: None)
+- --yrange: Y-axis range (default: None)
+- --x-points: Number of points to display on the x-axis (default: 5000)
