@@ -32,7 +32,7 @@ pgliveapp --num <number_of_plots> --cols <number_of_columns> --port <port_number
 
 For example:
 ```sh
-pgliveapp ---num 2 --cols 1 --port 4000 --ip localhost --yrange 5 --x-points 500
+pgliveapp --num 2 --cols 1 --port 4000 --ip localhost --yrange 5 --x-points 500
 ```
 
 ## Arguments
