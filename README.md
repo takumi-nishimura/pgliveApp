@@ -43,3 +43,9 @@ pgliveapp --num 2 --cols 1 --port 4000 --ip localhost --yrange 5 --x-points 500
 - --xrange: X-axis range (default: None)
 - --yrange: Y-axis range (default: None)
 - --x-points: Number of points to display on the x-axis (default: 5000)
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENCE.txt) file for details.
+
+* **pglive** is licensed under the MIT License - see the [LICENSE](https://github.com/pyqtgraph/pyqtgraph/blob/master/LICENSE.txt)
+* **PyQt6** is licensed under the GPL v3 License.
