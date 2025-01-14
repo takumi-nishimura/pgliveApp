@@ -2,7 +2,7 @@
 
 This project is a live plotting application using PyQt6 and pglive. It allows you to create real-time plots with customizable settings.
 
-<img src="docs/images/app_image.png" width="600">
+<img src="https://github.com/takumi-nishimura/pgliveApp/blob/master/docs/images/app_image.png" width="600">
 
 ## Features
 
