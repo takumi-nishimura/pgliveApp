@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="pgliveapp",
-    version="0.1.5",
+    version="0.1.6",
     description="",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
@@ -18,6 +18,6 @@ setup(
         ],
     },
     project_urls={
-        "source": "https://github.com/takumi-nishimura/pgliveApp.git"
+        "Source": "https://github.com/takumi-nishimura/pgliveApp.git",
     },
 )
